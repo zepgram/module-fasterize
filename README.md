@@ -33,4 +33,4 @@ Fasterize flush will be automatically triggered on those native Magento events:
 ``adminhtml_cache_flush_all``<br>
 
 ## Logs
-All action are logged and can be found under /var/log/zepgram/fasterize.log
+Every request are logged and can be found under /var/log/zepgram/fasterize.log
