@@ -1,0 +1,9 @@
+.fasterize-cache-system h3 {
+    padding: 15px 0;border-bottom: 1px solid #cac3b4;
+}
+.fasterize-cache-system table {
+    margin-bottom: 10px;
+}
+.fasterize-cache-system select {
+    margin:0 10px; width:250px
+}

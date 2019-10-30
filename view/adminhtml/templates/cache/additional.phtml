@@ -1,0 +1,65 @@
+<?php
+/** @var \Zepgram\Fasterize\ViewModel\Cache $viewModel */
+$viewModel = $block->getViewModel();
+?>
+<?php if ($viewModel->canShowBlock()) : ?>
+<div class="fasterize-cache-system">
+    <h3>
+        <span><?= /* @noEscape */ __('Fasterize Cache Management') ?></span>
+    </h3>
+    <form action="<?= /* @noEscape */ $viewModel->getCleanByStoreUrl() ?>" method="post" class="fasterize_clean_form">
+        <?= /* @noEscape */ $viewModel->getFormKey() ?>
+        <table class="form-list">
+            <tr>
+                <td class="scope-label">
+                    <button type="submit" class="scalable">
+                        <span><?= /* @noEscape */ __('Clean Fasterize by store') ?></span>
+                    </button>
+                </td>
+                <td>
+                    <select name="stores" class="required-entry admin__control-select local-validation">
+                        <?php foreach ($viewModel->getStoreOptions() as $store) : ?>
+                            <option value="<?= /* @noEscape */ $store->getId() ?>">
+                                <?= /* @noEscape */ $store->getName() ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </td>
+                <td class="scope-label">
+                    <span><?= /* @noEscape */ __('Clean cache from selected store in Fasterize')?></span>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <form action="<?= /* @noEscape */ $viewModel->getPurgeAllUrl() ?>" method="post" class="fasterize_clean_form">
+        <?= /* @noEscape */ $viewModel->getFormKey() ?>
+        <table class="form-list">
+            <tr>
+                <td class="scope-label">
+                    <button type="submit" class="scalable">
+                        <span><?= /* @noEscape */ __('Purge Fasterize') ?></span>
+                    </button>
+                </td>
+                <td class="scope-label">
+                    <span><?= /* @noEscape */ __('Purge Fasterize cache.')?></span>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/x-magento-init">
+   {
+       "*": {
+           "Magento_Ui/js/core/app": {
+               "components": {
+                   "additional": {
+                       "component": "Zepgram_Fasterize/js/cache/additional"
+                   }
+                }
+           }
+       }
+   }
+</script>
+<?php endif; ?>

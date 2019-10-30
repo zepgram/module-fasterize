@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+* This file is part of Zepgram\Fasterize\etc\adminhtml for Zepgram.
+*
+* @package    Zepgram\Fasterize\etc\adminhtml
+* @file       routes.xml
+* @date       11 09 2019 09:29
+*
+* @author     Benjamin Calef <zepgram@gmail.com>
+* @copyright  2019 Zepgram Copyright (c) (https://github.com/zepgram)
+* @license    MIT License
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="adminhtml">
+            <module before="Magento_Backend" name="Zepgram_Fasterize"/>
+        </route>
+    </router>
+</config>

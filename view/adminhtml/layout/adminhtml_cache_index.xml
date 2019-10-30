@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+* This file is part of Zepgram\Fasterize\view\adminhtml\layout
+*
+* @package    Zepgram\Fasterize\view\adminhtml\layout
+* @file       adminhtml_cache_index.xml
+* @date       11 09 2019 10:28
+*
+* @author     Benjamin Calef <zepgram@gmail.com>
+* @copyright  2019 Zepgram Copyright (c) (https://github.com/zepgram)
+* @license    MIT License
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Zepgram_Fasterize::css/additional.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block name="fasterize.cache.additional" template="Zepgram_Fasterize::cache/additional.phtml" after="cache.additional">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Zepgram\Fasterize\ViewModel\Cache</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

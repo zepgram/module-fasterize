@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+* This file is part of Zepgram\Fasterize\etc
+*
+* @package    Zepgram\Fasterize\etc
+* @file       acl.xml
+* @date       11 09 2019 10:28
+*
+* @author     Benjamin Calef <zepgram@gmail.com>
+* @copyright  2019 Zepgram Copyright (c) (https://github.com/zepgram)
+* @license    MIT License
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Zepgram_Fasterize::config" title="Fasterize" sortOrder="30"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

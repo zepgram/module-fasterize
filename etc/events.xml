@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+* This file is part of Zepgram\Fasterize\etc
+*
+* @package    Zepgram\Fasterize\etc
+* @file       events.xml
+* @date       11 09 2019 10:28
+*
+* @author     Benjamin Calef <zepgram@gmail.com>
+* @copyright  2019 Zepgram Copyright (c) (https://github.com/zepgram)
+* @license    MIT License
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="clean_media_cache_after">
+        <observer name="fasterize_flush_media" instance="Zepgram\Fasterize\Observer\FlushAllCacheObserver"/>
+    </event>
+    <event name="clean_catalog_images_cache_after">
+        <observer name="fasterize_flush_catalog" instance="Zepgram\Fasterize\Observer\FlushAllCacheObserver"/>
+    </event>
+    <event name="assign_theme_to_stores_after">
+        <observer name="fasterize_flush_theme" instance="Zepgram\Fasterize\Observer\FlushAllCacheObserver"/>
+    </event>
+    <event name="adminhtml_cache_refresh_type">
+        <observer name="fasterize_flush_refresh" instance="Zepgram\Fasterize\Observer\FlushAllCacheObserver"/>
+    </event>
+    <event name="adminhtml_cache_flush_all">
+        <observer name="fasterize_flush_all" instance="Zepgram\Fasterize\Observer\FlushAllCacheObserver"/>
+    </event>
+</config>

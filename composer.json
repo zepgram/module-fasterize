@@ -1,0 +1,32 @@
+{
+  "name": "zepgram/module-fasterize",
+  "description": "Manage Fasterize cache from Magento admin and auto-trigger cache flush when necessary",
+  "type": "magento2-module",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Benjamin Calef",
+      "email": "zepgram@gmail.com"
+    }
+  ],
+  "require": {
+    "magento/framework": "^101.0.7|^102.0.0",
+    "magento/module-store": "^100.2.6|^101.0.0",
+    "zepgram/module-base": "^0.0.1"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Zepgram\\Fasterize\\": ""
+    }
+  },
+  "license": "MIT",
+  "repositories": {
+    "repo.magento.com": {
+      "type": "composer",
+      "url": "https://repo.magento.com/"
+    }
+  }
+}
