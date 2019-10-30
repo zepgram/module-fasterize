@@ -12,11 +12,11 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="Zepgram_Fasterize::css/additional.css"/>
+        <css src="Zepgram_Fasterize::css/management.css"/>
     </head>
     <body>
         <referenceContainer name="content">
-            <block name="fasterize.cache.additional" template="Zepgram_Fasterize::cache/additional.phtml" after="cache.additional">
+            <block name="fasterize.cache.management" template="Zepgram_Fasterize::cache/management.phtml" after="cache.additional">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Zepgram\Fasterize\ViewModel\Cache</argument>
                 </arguments>

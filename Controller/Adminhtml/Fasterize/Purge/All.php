@@ -12,11 +12,11 @@
 
 namespace Zepgram\Fasterize\Controller\Adminhtml\Fasterize\Purge;
 
-use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
 use Zepgram\Fasterize\Http\PurgeRequest;
+use Zepgram\Fasterize\Model\ResponseHandler;
 
 /**
  * Class All
@@ -25,21 +25,34 @@ use Zepgram\Fasterize\Http\PurgeRequest;
 class All extends Action
 {
     /**
+     * @var string
+     */
+    const ADMIN_RESOURCE = 'Zepgram_Fasterize::fasterize_cache_management';
+
+    /**
      * @var PurgeRequest
      */
     private $purgeRequest;
 
     /**
+     * @var ResponseHandler
+     */
+    private $responseHandler;
+
+    /**
      * Store constructor.
      *
-     * @param Context      $context
-     * @param PurgeRequest $purgeRequest
+     * @param Context         $context
+     * @param PurgeRequest    $purgeRequest
+     * @param ResponseHandler $responseHandler
      */
     public function __construct(
         Context $context,
-        PurgeRequest $purgeRequest
+        PurgeRequest $purgeRequest,
+        ResponseHandler $responseHandler
     ) {
         $this->purgeRequest = $purgeRequest;
+        $this->responseHandler = $responseHandler;
         parent::__construct($context);
     }
 
@@ -50,28 +63,8 @@ class All extends Action
      */
     public function execute()
     {
-        $storeCodes = null;
-
-        try {
-            $results = $this->purgeRequest->flushAll();
-            if ($results) {
-                foreach ($results as $storeCode => $result) {
-                    if (!$storeCodes) {
-                        $storeCodes .= $storeCode;
-                    } else {
-                        $storeCodes .= ", {$storeCode}";
-                    }
-                }
-            }
-
-            $this->getMessageManager()
-                ->addSuccessMessage(__("The Fasterize cache has been cleaned for store: {$storeCodes}."))
-            ;
-        } catch (Exception $e) {
-            $this->getMessageManager()
-                ->addErrorMessage(__('An error occurred while clearing the Fasterize Cache: %1', $e->getMessage()))
-            ;
-        }
+        $result = $this->purgeRequest->flushAll();
+        $this->responseHandler->manageResult($result);
 
         return $this->_redirect('*/cache/index');
     }

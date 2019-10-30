@@ -14,9 +14,8 @@ namespace Zepgram\Fasterize\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Message\ManagerInterface;
 use Zepgram\Fasterize\Http\PurgeRequest;
+use Zepgram\Fasterize\Model\ResponseHandler;
 
 /**
  * Class FlushAllCacheObserver
@@ -30,36 +29,41 @@ class FlushAllCacheObserver implements ObserverInterface
     private $purgeRequest;
 
     /**
-     * @var ManagerInterface
+     * @var ResponseHandler
      */
-    private $manager;
+    private $responseHandler;
+
+    /**
+     * @var bool
+     */
+    private $purgeFlag;
 
     /**
      * FlushAllCacheObserver constructor.
      *
-     * @param PurgeRequest     $purgeRequest
-     * @param ManagerInterface $manager
+     * @param PurgeRequest    $purgeRequest
+     * @param ResponseHandler $responseHandler
      */
     public function __construct(
         PurgeRequest $purgeRequest,
-        ManagerInterface $manager
+        ResponseHandler $responseHandler
     ) {
         $this->purgeRequest = $purgeRequest;
-        $this->manager = $manager;
+        $this->responseHandler = $responseHandler;
     }
 
     /**
-     * Flush all event.
+     * Flush all event
+     * actions here are not explicitly requested so error will be printed as warning
      *
      * @param Observer $observer
-     *
-     * @throws LocalizedException
      */
     public function execute(Observer $observer)
     {
-        $results = $this->purgeRequest->flushAll();
-        if ($results) {
-            $this->manager->addSuccessMessage(__('Fasterize cache has been cleaned.'));
+        if (null === $this->purgeFlag) {
+            $result = $this->purgeRequest->flushAll();
+            $this->purgeFlag = true;
+            $this->responseHandler->manageResult($result, 'addWarningMessage');
         }
     }
 }

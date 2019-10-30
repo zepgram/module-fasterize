@@ -12,12 +12,15 @@
 
 namespace Zepgram\Fasterize\Http;
 
-use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\DataObject;
+use Magento\Framework\DataObjectFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\HTTP\Adapter\Curl;
 use Magento\Framework\HTTP\Adapter\CurlFactory;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+use Zepgram\Fasterize\Exception\FasterizeException;
 use Zepgram\Fasterize\Model\Config;
 
 /**
@@ -47,6 +50,16 @@ class PurgeRequest
     private $config;
 
     /**
+     * @var DataObject
+     */
+    private $response;
+
+    /**
+     * @var DataObjectFactory
+     */
+    private $dataObjectFactory;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -58,6 +71,7 @@ class PurgeRequest
      * @param SerializerInterface   $serializer
      * @param StoreManagerInterface $storeManager
      * @param Config                $config
+     * @param DataObjectFactory     $dataObjectFactory
      * @param LoggerInterface       $logger
      */
     public function __construct(
@@ -65,45 +79,59 @@ class PurgeRequest
         SerializerInterface $serializer,
         StoreManagerInterface $storeManager,
         Config $config,
+        DataObjectFactory $dataObjectFactory,
         LoggerInterface $logger
     ) {
-        $this->logger = $logger;
         $this->curlFactory = $curlFactory;
         $this->serializer = $serializer;
         $this->storeManager = $storeManager;
         $this->config = $config;
+        $this->dataObjectFactory = $dataObjectFactory;
+        $this->logger = $logger;
     }
 
     /**
      * @param int $storeId
      *
-     * @throws LocalizedException
-     *
-     * @return bool|mixed
+     * @return null|DataObject
      */
     public function flush($storeId = 0)
     {
-        return $this->sendRequest('cache', $storeId);
+        if (null === $this->response) {
+            $this->response = $this->dataObjectFactory->create();
+        }
+
+        try {
+            $storeCode = $this->storeManager->getStore($storeId)->getCode();
+
+            try {
+                $this->sendRequest('cache', $storeId);
+                $this->response->setData($storeCode);
+            } catch (FasterizeException $e) {
+                $this->response->setData($storeCode, $e->getMessage());
+            }
+        } catch (NoSuchEntityException $e) {
+            $this->logger->error($e->getMessage());
+        }
+
+        return $this->response;
     }
 
     /**
-     * @throws LocalizedException
-     *
-     * @return array|false
+     * @return null|DataObject
      */
     public function flushAll()
     {
-        $results = false;
         $stores = $this->storeManager->getStores();
+
         foreach ($stores as $store) {
             $storeId = $store->getId();
-            $storeCode = \strtoupper($store->getCode());
             if ($this->config->isActive($storeId)) {
-                $results[$storeCode] = $this->flush($storeId);
+                $this->flush($storeId);
             }
         }
 
-        return $results;
+        return $this->response;
     }
 
     /**
@@ -113,7 +141,7 @@ class PurgeRequest
      * @param int    $storeId API Auth
      * @param string $method  HTTP Method for request
      *
-     * @throws LocalizedException
+     * @throws FasterizeException
      *
      * @return bool|mixed
      */
@@ -123,7 +151,7 @@ class PurgeRequest
         $method = \Zend_Http_Client::DELETE
     ) {
         if (!$this->config->isActive($storeId)) {
-            throw new LocalizedException(__('Fasterize is disabled in configuration'));
+            throw new FasterizeException(__('Fasterize is disabled in configuration'));
         }
 
         // Get config
@@ -167,14 +195,13 @@ class PurgeRequest
             'body' => $responseBody,
         ];
 
-        $this->logger->info("Fasterize {$service} service", $responseLog);
-
         // Return error based on response code
-        if (200 !== $responseCode) {
-            $this->logger->error("Fasterize {$service} service", $responseLog);
+        if (200 !== (int) $responseCode) {
+            $this->logger->error("Request $method for service {$service}", $responseLog);
 
-            throw new LocalizedException(__($responseBody));
+            throw new FasterizeException(__("${responseCode} - ${responseCodeText}"));
         }
+        $this->logger->info("Request $method for service {$service}", $responseLog);
 
         return $this->serializer->unserialize($responseBody);
     }
