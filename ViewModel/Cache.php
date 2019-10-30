@@ -91,11 +91,11 @@ class Cache implements ArgumentInterface
     }
 
     /**
-     * Is global config enabled.
+     * Is config enabled for at least one store.
      *
      * @return bool
      */
-    public function canShowBlock()
+    public function isBlockDisplayable()
     {
         return \count($this->getStoreOptions()) > 0;
     }
