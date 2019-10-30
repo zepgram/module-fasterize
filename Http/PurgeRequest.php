@@ -1,8 +1,7 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\Http
+ * This file is part of Zepgram\Fasterize\Http.
  *
- * @package    Zepgram\Fasterize\Http
  * @file       PurgeRequest.php
  * @date       11 09 2019 17:49
  *
@@ -13,17 +12,17 @@
 
 namespace Zepgram\Fasterize\Http;
 
-use Zepgram\Fasterize\Model\Config;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\Adapter\Curl;
 use Magento\Framework\HTTP\Adapter\CurlFactory;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+use Zepgram\Fasterize\Model\Config;
 
 /**
  * Class PurgeRequest
- * api request
+ * api request.
  */
 class PurgeRequest
 {
@@ -98,7 +97,7 @@ class PurgeRequest
         $stores = $this->storeManager->getStores();
         foreach ($stores as $store) {
             $storeId = $store->getId();
-            $storeCode = strtoupper($store->getCode());
+            $storeCode = \strtoupper($store->getCode());
             if ($this->config->isActive($storeId)) {
                 $results[$storeCode] = $this->flush($storeId);
             }

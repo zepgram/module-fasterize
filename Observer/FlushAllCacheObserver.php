@@ -1,8 +1,7 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\Observer
+ * This file is part of Zepgram\Fasterize\Observer.
  *
- * @package    Zepgram\Fasterize\Observer
  * @file       FlushAllCacheObserver.php
  * @date       13 09 2019 16:29
  *
@@ -13,15 +12,15 @@
 
 namespace Zepgram\Fasterize\Observer;
 
-use Zepgram\Fasterize\Http\PurgeRequest;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\ManagerInterface;
+use Zepgram\Fasterize\Http\PurgeRequest;
 
 /**
  * Class FlushAllCacheObserver
- * auto-trigger cache clean
+ * auto-trigger cache clean.
  */
 class FlushAllCacheObserver implements ObserverInterface
 {
@@ -50,7 +49,7 @@ class FlushAllCacheObserver implements ObserverInterface
     }
 
     /**
-     * Flush all event
+     * Flush all event.
      *
      * @param Observer $observer
      *

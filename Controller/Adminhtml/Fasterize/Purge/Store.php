@@ -1,8 +1,7 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\Controller\Adminhtml\Fasterize\Purge
+ * This file is part of Zepgram\Fasterize\Controller\Adminhtml\Fasterize\Purge.
  *
- * @package    Zepgram\Fasterize\Controller\Adminhtml\Fasterize\Purge
  * @file       Store.php
  * @date       13 09 2019 16:29
  *
@@ -13,16 +12,16 @@
 
 namespace Zepgram\Fasterize\Controller\Adminhtml\Fasterize\Purge;
 
-use Zepgram\Fasterize\Http\PurgeRequest;
-use Magento\Store\Model\StoreManagerInterface;
-use Magento\Framework\App\ResponseInterface;
+use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Exception;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use Zepgram\Fasterize\Http\PurgeRequest;
 
 /**
  * Class Store
- * purge by store
+ * purge by store.
  */
 class Store extends Action
 {
@@ -54,7 +53,7 @@ class Store extends Action
     }
 
     /**
-     * Purge by store
+     * Purge by store.
      *
      * @return ResponseInterface
      */
@@ -64,14 +63,16 @@ class Store extends Action
             $storeId = $this->getRequest()->getParam('stores', false);
             /** @var \Magento\Store\Model\Store $store */
             $store = $this->storeManager->getStore($storeId);
-            $storeCode = strtoupper($store->getCode());
+            $storeCode = \strtoupper($store->getCode());
             $this->purgeRequest->flush($storeId);
 
             $this->getMessageManager()
-                ->addSuccessMessage(__("The Fasterize cache has been cleaned for store: {$storeCode}."));
+                ->addSuccessMessage(__("The Fasterize cache has been cleaned for store: {$storeCode}."))
+            ;
         } catch (Exception $e) {
             $this->getMessageManager()
-                ->addErrorMessage(__('An error occurred while clearing the Fasterize Cache: %1', $e->getMessage()));
+                ->addErrorMessage(__('An error occurred while clearing the Fasterize Cache: %1', $e->getMessage()))
+            ;
         }
 
         return $this->_redirect('*/cache/index');

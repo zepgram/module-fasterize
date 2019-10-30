@@ -1,8 +1,7 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\Model
+ * This file is part of Zepgram\Fasterize\Model.
  *
- * @package    Zepgram\Fasterize\Model
  * @file       Config.php
  * @date       11 09 2019 17:38
  *
@@ -18,7 +17,7 @@ use Magento\Store\Model\ScopeInterface;
 
 /**
  * Class Config
- * scope config data
+ * scope config data.
  */
 class Config
 {
@@ -69,7 +68,7 @@ class Config
             $storeId
         );
 
-        if (!empty($apiUrl) && DIRECTORY_SEPARATOR !== substr($apiUrl, -1)) {
+        if (!empty($apiUrl) && DIRECTORY_SEPARATOR !== \substr($apiUrl, -1)) {
             $apiUrl .= DIRECTORY_SEPARATOR;
         }
 

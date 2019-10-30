@@ -1,8 +1,7 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\ViewModel
+ * This file is part of Zepgram\Fasterize\ViewModel.
  *
- * @package    Zepgram\Fasterize\ViewModel
  * @file       Cache.php
  * @date       13 09 2019 16:29
  *
@@ -13,17 +12,17 @@
 
 namespace Zepgram\Fasterize\ViewModel;
 
-use Magento\Framework\Exception\LocalizedException;
-use Zepgram\Fasterize\Model\Config;
 use Magento\Backend\Model\UrlInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Data\Form\FormKey;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+use Zepgram\Fasterize\Model\Config;
 
 /**
  * Class Cache
- * view model for additional template
+ * view model for additional template.
  */
 class Cache implements ArgumentInterface
 {
@@ -78,7 +77,7 @@ class Cache implements ArgumentInterface
     /**
      * Get form key.
      *
-     * @return string|null
+     * @return null|string
      */
     public function getFormKey()
     {
@@ -98,7 +97,7 @@ class Cache implements ArgumentInterface
      */
     public function canShowBlock()
     {
-        return count($this->getStoreOptions()) > 0;
+        return \count($this->getStoreOptions()) > 0;
     }
 
     /**
