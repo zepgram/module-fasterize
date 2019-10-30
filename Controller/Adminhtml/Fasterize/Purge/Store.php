@@ -12,12 +12,11 @@
 
 namespace Zepgram\Fasterize\Controller\Adminhtml\Fasterize\Purge;
 
-use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\ResponseInterface;
-use Magento\Store\Model\StoreManagerInterface;
 use Zepgram\Fasterize\Http\PurgeRequest;
+use Zepgram\Fasterize\Model\ResponseHandler;
 
 /**
  * Class Store
@@ -26,9 +25,9 @@ use Zepgram\Fasterize\Http\PurgeRequest;
 class Store extends Action
 {
     /**
-     * @var StoreManagerInterface
+     * @var string
      */
-    private $storeManager;
+    const ADMIN_RESOURCE = 'Zepgram_Fasterize::fasterize_cache_management';
 
     /**
      * @var PurgeRequest
@@ -36,19 +35,24 @@ class Store extends Action
     private $purgeRequest;
 
     /**
+     * @var ResponseHandler
+     */
+    private $responseHandler;
+
+    /**
      * Store constructor.
      *
-     * @param Context               $context
-     * @param StoreManagerInterface $storeManager
-     * @param PurgeRequest          $purgeRequest
+     * @param Context         $context
+     * @param PurgeRequest    $purgeRequest
+     * @param ResponseHandler $responseHandler
      */
     public function __construct(
         Context $context,
-        StoreManagerInterface $storeManager,
-        PurgeRequest $purgeRequest
+        PurgeRequest $purgeRequest,
+        ResponseHandler $responseHandler
     ) {
-        $this->storeManager = $storeManager;
         $this->purgeRequest = $purgeRequest;
+        $this->responseHandler = $responseHandler;
         parent::__construct($context);
     }
 
@@ -59,21 +63,9 @@ class Store extends Action
      */
     public function execute()
     {
-        try {
-            $storeId = $this->getRequest()->getParam('stores', false);
-            /** @var \Magento\Store\Model\Store $store */
-            $store = $this->storeManager->getStore($storeId);
-            $storeCode = \strtoupper($store->getCode());
-            $this->purgeRequest->flush($storeId);
-
-            $this->getMessageManager()
-                ->addSuccessMessage(__("The Fasterize cache has been cleaned for store: {$storeCode}."))
-            ;
-        } catch (Exception $e) {
-            $this->getMessageManager()
-                ->addErrorMessage(__('An error occurred while clearing the Fasterize Cache: %1', $e->getMessage()))
-            ;
-        }
+        $storeId = $this->getRequest()->getParam('stores', false);
+        $result = $this->purgeRequest->flush($storeId);
+        $this->responseHandler->manageResult($result);
 
         return $this->_redirect('*/cache/index');
     }

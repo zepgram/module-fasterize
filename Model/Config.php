@@ -13,6 +13,7 @@
 namespace Zepgram\Fasterize\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -32,13 +33,22 @@ class Config
     private $scopeConfig;
 
     /**
+     * @var EncryptorInterface
+     */
+    private $encryptor;
+
+    /**
      * Config constructor.
      *
      * @param ScopeConfigInterface $scopeConfig
+     * @param EncryptorInterface   $encryptor
      */
-    public function __construct(ScopeConfigInterface $scopeConfig)
-    {
+    public function __construct(
+        ScopeConfigInterface $scopeConfig,
+        EncryptorInterface $encryptor
+    ) {
         $this->scopeConfig = $scopeConfig;
+        $this->encryptor = $encryptor;
     }
 
     /**
@@ -96,10 +106,12 @@ class Config
      */
     public function getApiToken($storeId = 0)
     {
-        return (string) $this->scopeConfig->getValue(
+        $token = (string) $this->scopeConfig->getValue(
             self::XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_API_TOKEN,
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
+
+        return $this->encryptor->decrypt($token);
     }
 }

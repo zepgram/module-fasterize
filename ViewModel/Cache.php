@@ -13,6 +13,7 @@
 namespace Zepgram\Fasterize\ViewModel;
 
 use Magento\Backend\Model\UrlInterface;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
@@ -47,6 +48,11 @@ class Cache implements ArgumentInterface
     private $config;
 
     /**
+     * @var AuthorizationInterface
+     */
+    private $authorization;
+
+    /**
      * @var LoggerInterface
      */
     private $logger;
@@ -54,23 +60,26 @@ class Cache implements ArgumentInterface
     /**
      * Cache constructor.
      *
-     * @param FormKey               $formKey
-     * @param StoreManagerInterface $storeManagement
-     * @param UrlInterface          $backendUrl
-     * @param Config                $config
-     * @param LoggerInterface       $logger
+     * @param FormKey                $formKey
+     * @param StoreManagerInterface  $storeManagement
+     * @param UrlInterface           $backendUrl
+     * @param Config                 $config
+     * @param AuthorizationInterface $authorization
+     * @param LoggerInterface        $logger
      */
     public function __construct(
         FormKey $formKey,
         StoreManagerInterface $storeManagement,
         UrlInterface $backendUrl,
         Config $config,
+        AuthorizationInterface $authorization,
         LoggerInterface $logger
     ) {
         $this->formKey = $formKey;
         $this->storeManager = $storeManagement;
         $this->backendUrl = $backendUrl;
         $this->config = $config;
+        $this->authorization = $authorization;
         $this->logger = $logger;
     }
 
@@ -91,13 +100,15 @@ class Cache implements ArgumentInterface
     }
 
     /**
-     * Is global config enabled.
+     * Is config enabled for at least one store.
      *
      * @return bool
      */
-    public function canShowBlock()
+    public function isBlockDisplayable()
     {
-        return \count($this->getStoreOptions()) > 0;
+        $resource = $this->authorization->isAllowed('Zepgram_Fasterize::fasterize_cache_management');
+
+        return \count($this->getStoreOptions()) > 0 && $resource;
     }
 
     /**

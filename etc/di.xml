@@ -14,7 +14,7 @@
     <virtualType name="Zepgram\Fasterize\Logger\Handler" type="Magento\Framework\Logger\Handler\Base">
         <arguments>
             <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
-            <argument name="fileName" xsi:type="string">var/log/fasterize.log</argument>
+            <argument name="fileName" xsi:type="string">var/log/zepgram/fasterize.log</argument>
         </arguments>
     </virtualType>
     <virtualType name="Zepgram\Fasterize\Logger\Logger" type="Magento\Framework\Logger\Monolog">
