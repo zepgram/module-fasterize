@@ -45,11 +45,13 @@ class FlushAllCacheObserver implements ObserverInterface
         PurgeRequest $purgeRequest,
         ManagerInterface $manager
     ) {
-        $this->manager = $manager;
         $this->purgeRequest = $purgeRequest;
+        $this->manager = $manager;
     }
 
     /**
+     * Flush all event
+     *
      * @param Observer $observer
      *
      * @throws LocalizedException

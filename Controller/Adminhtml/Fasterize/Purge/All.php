@@ -13,6 +13,8 @@
 
 namespace Zepgram\Fasterize\Controller\Adminhtml\Fasterize\Purge;
 
+use Exception;
+use Magento\Framework\App\ResponseInterface;
 use Zepgram\Fasterize\Http\PurgeRequest;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -43,17 +45,13 @@ class All extends Action
     }
 
     /**
-     * Purge by content type.
+     * Purge all
      *
-     * @throws \Exception
-     *
-     * @return \Magento\Framework\App\ResponseInterface
+     * @return ResponseInterface
      */
     public function execute()
     {
-        $result = false;
         $storeCodes = null;
-
         try {
             $results = $this->purgeRequest->flushAll();
             if ($results) {
@@ -66,17 +64,11 @@ class All extends Action
                 }
             }
 
-            if ($result) {
-                $this->getMessageManager()->addSuccessMessage(__("The Fasterize cache has been cleaned for store: {$storeCodes}."));
-            } else {
-                $this->getMessageManager()->addErrorMessage(
-                    __('The purge request was not processed successfully.')
-                );
-            }
-        } catch (\Exception $e) {
-            $this->getMessageManager()->addErrorMessage(
-                __('An error occurred while clearing the Fasterize Cache: ').$e->getMessage()
-            );
+            $this->getMessageManager()
+                ->addSuccessMessage(__("The Fasterize cache has been cleaned for store: {$storeCodes}."));
+        } catch (Exception $e) {
+            $this->getMessageManager()
+                ->addErrorMessage(__('An error occurred while clearing the Fasterize Cache: %1', $e->getMessage()));
         }
 
         return $this->_redirect('*/cache/index');

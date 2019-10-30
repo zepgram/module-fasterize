@@ -54,32 +54,24 @@ class Store extends Action
     }
 
     /**
-     * Purge by content type.
-     *
-     * @throws Exception
+     * Purge by store
      *
      * @return ResponseInterface
      */
     public function execute()
     {
         try {
-            // check if store exists
             $storeId = $this->getRequest()->getParam('stores', false);
             /** @var \Magento\Store\Model\Store $store */
             $store = $this->storeManager->getStore($storeId);
             $storeCode = strtoupper($store->getCode());
-            $result = $this->purgeRequest->flush($storeId);
-            if ($result) {
-                $this->getMessageManager()->addSuccessMessage(__("The Fasterize cache has been cleaned for store: {$storeCode}."));
-            } else {
-                $this->getMessageManager()->addErrorMessage(
-                    __('The purge request was not processed successfully.')
-                );
-            }
+            $this->purgeRequest->flush($storeId);
+
+            $this->getMessageManager()
+                ->addSuccessMessage(__("The Fasterize cache has been cleaned for store: {$storeCode}."));
         } catch (Exception $e) {
-            $this->getMessageManager()->addErrorMessage(
-                __('An error occurred while clearing the Fasterize Cache: ').$e->getMessage()
-            );
+            $this->getMessageManager()
+                ->addErrorMessage(__('An error occurred while clearing the Fasterize Cache: %1', $e->getMessage()));
         }
 
         return $this->_redirect('*/cache/index');

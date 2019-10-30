@@ -8,7 +8,7 @@ $viewModel = $block->getViewModel();
         <span><?= /* @noEscape */ __('Fasterize Cache Management') ?></span>
     </h3>
     <form action="<?= /* @noEscape */ $viewModel->getCleanByStoreUrl() ?>" method="post" class="fasterize_clean_form">
-        <?= /* @noEscape */ $viewModel->getFormKey() ?>
+        <input type="hidden" name="form_key" value="<?= /* @noEscape */ $viewModel->getFormKey() ?>">
         <table class="form-list">
             <tr>
                 <td class="scope-label">
@@ -33,7 +33,7 @@ $viewModel = $block->getViewModel();
     </form>
 
     <form action="<?= /* @noEscape */ $viewModel->getPurgeAllUrl() ?>" method="post" class="fasterize_clean_form">
-        <?= /* @noEscape */ $viewModel->getFormKey() ?>
+        <input type="hidden" name="form_key" value="<?= /* @noEscape */ $viewModel->getFormKey() ?>">
         <table class="form-list">
             <tr>
                 <td class="scope-label">

@@ -22,9 +22,9 @@ use Magento\Store\Model\ScopeInterface;
  */
 class Config
 {
-    const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_ACTIVE    = 'zepgram_fasterize/general/active';
-    const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_API_URL   = 'zepgram_fasterize/general/api_url';
-    const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_API_ID    = 'zepgram_fasterize/general/api_id';
+    const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_ACTIVE = 'zepgram_fasterize/general/active';
+    const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_API_URL = 'zepgram_fasterize/general/api_url';
+    const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_API_ID = 'zepgram_fasterize/general/api_id';
     const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_API_TOKEN = 'zepgram_fasterize/general/api_token';
 
     /**

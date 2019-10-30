@@ -76,7 +76,7 @@ class Cache implements ArgumentInterface
     }
 
     /**
-     * get form key
+     * Get form key.
      *
      * @return string|null
      */
