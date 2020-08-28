@@ -1,12 +1,12 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\Exception for Caudalie.
+ * This file is part of Zepgram\Fasterize\Exception
  *
  * @file       FasterizeException.php
  * @date       30 10 2019 20:57
  *
- * @author     bcalef <benjamin.calef@caudalie.com>
- * @copyright  2019 Caudalie Copyright (c) (https://caudalie.com)
+ * @author     Benjamin Calef <zepgram@gmail.com>
+ * @copyright  2019 Zepgram Copyright (c) (https://github.com/zepgram)
  * @license    proprietary
  */
 

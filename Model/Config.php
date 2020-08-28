@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\Model.
+ * This file is part of Zepgram\Fasterize\Model
  *
  * @file       Config.php
  * @date       11 09 2019 17:38
@@ -22,10 +22,20 @@ use Magento\Store\Model\ScopeInterface;
  */
 class Config
 {
+    /** @var string */
     const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_ACTIVE = 'zepgram_fasterize/general/active';
+
+    /** @var string */
     const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_API_URL = 'zepgram_fasterize/general/api_url';
+
+    /** @var string */
     const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_API_ID = 'zepgram_fasterize/general/api_id';
+
+    /** @var string */
     const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_API_TOKEN = 'zepgram_fasterize/general/api_token';
+
+    /** @var string */
+    const XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_IGNORE_WARNING = 'zepgram_fasterize/general/ignore_warning';
 
     /**
      * @var ScopeConfigInterface
@@ -113,5 +123,13 @@ class Config
         );
 
         return $this->encryptor->decrypt($token);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIgnoreWarning()
+    {
+        return (bool) $this->scopeConfig->getValue(self::XML_PATH_ZEPGRAM_FASTERIZE_GENERAL_IGNORE_WARNING);
     }
 }

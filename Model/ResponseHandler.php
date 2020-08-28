@@ -1,12 +1,12 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\Model for Caudalie.
+ * This file is part of Zepgram\Fasterize\Model
  *
  * @file       MessageManager.php
  * @date       30 10 2019 22:43
  *
- * @author     bcalef <benjamin.calef@caudalie.com>
- * @copyright  2019 Caudalie Copyright (c) (https://caudalie.com)
+ * @author     Benjamin Calef <zepgram@gmail.com>
+ * @copyright  2019 Zepgram Copyright (c) (https://github.com/zepgram)
  * @license    proprietary
  */
 
@@ -23,13 +23,22 @@ class ResponseHandler
     private $messageManager;
 
     /**
+     * @var Config
+     */
+    private $config;
+
+    /**
      * MessageManager constructor.
      *
      * @param ManagerInterface $messageManager
+     * @param Config $config
      */
-    public function __construct(ManagerInterface $messageManager)
-    {
+    public function __construct(
+        ManagerInterface $messageManager,
+        Config $config
+    ) {
         $this->messageManager = $messageManager;
+        $this->config = $config;
     }
 
     /**
@@ -45,23 +54,27 @@ class ResponseHandler
             return;
         }
 
-        foreach ($messages as $key => $message) {
-            $key = \strtoupper($key);
+        foreach ($messages as $label => $message) {
+            $label = \strtoupper($label);
             if (null === $message) {
                 if (null === $successResponse) {
-                    $successResponse = $key;
+                    $successResponse = $label;
 
                     continue;
                 }
-                $successResponse .= ", ${key}";
+                $successResponse .= ", ${label}";
             } else {
                 if (null === $errorResponse) {
-                    $errorResponse = "${key} ${message}";
+                    $errorResponse = "${label} ${message}";
 
                     continue;
                 }
-                $errorResponse .= ", ${key} ${message}";
+                $errorResponse .= ", ${label} ${message}";
             }
+        }
+
+        if ($level === 'addWarningMessage' && $this->config->isIgnoreWarning()) {
+            $errorResponse = null;
         }
 
         if (null !== $errorResponse) {
