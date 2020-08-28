@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\Observer.
+ * This file is part of Zepgram\Fasterize\Observer
  *
  * @file       FlushAllCacheObserver.php
  * @date       13 09 2019 16:29
@@ -62,8 +62,10 @@ class FlushAllCacheObserver implements ObserverInterface
     {
         if (null === $this->purgeFlag) {
             $result = $this->purgeRequest->flushAll();
-            $this->purgeFlag = true;
-            $this->responseHandler->manageResult($result, 'addWarningMessage');
+            if ($result) {
+                $this->purgeFlag = true;
+                $this->responseHandler->manageResult($result, 'addWarningMessage');
+            }
         }
     }
 }

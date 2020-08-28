@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\Http.
+ * This file is part of Zepgram\Fasterize\Http
  *
  * @file       PurgeRequest.php
  * @date       11 09 2019 17:49
@@ -150,17 +150,27 @@ class PurgeRequest
         $storeId = 0,
         $method = \Zend_Http_Client::DELETE
     ) {
+        // Validate config
         if (!$this->config->isActive($storeId)) {
             throw new FasterizeException(__('Fasterize is disabled in configuration'));
         }
-
-        // Get config
-        $uri = $this->config->getApiUrl($storeId).$this->config->getApiId($storeId)."/{$service}";
-        $token = $this->config->getApiToken($storeId);
+        $apiUrl = $this->config->getApiUrl($storeId);
+        if (!$apiUrl) {
+            throw new FasterizeException(__('API url is not configured'));
+        }
+        $apiToken = $this->config->getApiToken($storeId);
+        if (!$apiToken) {
+            throw new FasterizeException(__('API token is not configured'));
+        }
+        $apiId = $this->config->getApiId($storeId);
+        if (!$apiId) {
+            throw new FasterizeException(__('API id is not configured'));
+        }
+        $uri = $apiUrl . $apiId . "/{$service}";
 
         // Client headers
         $headers = [
-            "Authorization: {$token}",
+            "Authorization: {$apiToken}",
             'Accept: application/json',
         ];
 
