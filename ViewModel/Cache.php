@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of Zepgram\Fasterize\ViewModel.
+ * This file is part of Zepgram\Fasterize\ViewModel
  *
  * @file       Cache.php
  * @date       13 09 2019 16:29

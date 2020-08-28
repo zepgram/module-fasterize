@@ -2,7 +2,7 @@
   "name": "zepgram/module-fasterize",
   "description": "Manage Fasterize cache from Magento admin and auto-trigger cache flush when it's necessary by using the Fasterize API service",
   "type": "magento2-module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "authors": [
     {
       "name": "Benjamin Calef",

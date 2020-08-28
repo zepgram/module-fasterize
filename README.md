@@ -11,7 +11,7 @@ bin/magento setup:upgrade
 
 ## Configuration
 Enter your Fasterize configuration under Stores > Configuration > Zepgram
-![image](https://user-images.githubusercontent.com/16258478/67890243-a377be80-fb50-11e9-85f9-8b261d061030.png)
+![image](https://user-images.githubusercontent.com/16258478/91511254-972ed000-e8df-11ea-9026-83fb4e8ea93c.png)
 
 Then, at least one store must be enabled to access the Fasterize cache manager
 ![image](https://user-images.githubusercontent.com/16258478/67890231-9c50b080-fb50-11e9-82b9-89d3ce8938b2.png)
