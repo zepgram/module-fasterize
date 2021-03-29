@@ -27,7 +27,7 @@
                     ]]>
                     </comment>
                 </field>
-                <field id="api_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" default="1">
+                <field id="api_url" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Api Url</label>
                     <validate>required-entry no-whitespace validate-url</validate>
                     <comment><![CDATA[Fasterize service api url]]></comment>

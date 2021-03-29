@@ -172,8 +172,8 @@ class PurgeRequest
         $headers = [
             "Authorization: {$apiToken}",
             'Accept: application/json',
+            'Content-Type: application/json'
         ];
-
         // Client options
         $options[CURLOPT_CUSTOMREQUEST] = $method;
 
@@ -182,7 +182,7 @@ class PurgeRequest
 
         // Execute request
         $client->setOptions($options);
-        $client->write($method, $uri, '1.1', $headers);
+        $client->write($method, $uri, '1.1', $headers, $this->serializer->serialize([]));
         $response = $client->read();
         $client->close();
 
